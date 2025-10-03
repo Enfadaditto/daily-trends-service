@@ -42,6 +42,11 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
   },
-  "include": ["src", "tests", "vitest.config.ts"]
+  "include": ["src"],
+  "exclude": ["tests", "vitest.config.ts"]
 }

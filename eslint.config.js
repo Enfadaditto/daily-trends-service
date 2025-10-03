@@ -2,6 +2,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import { defineConfig } from "eslint/config";
+import vitest from "@vitest/eslint-plugin";
 
 export default defineConfig([
   { ignores: ["dist", "node_modules", "coverage"] },
@@ -18,5 +19,13 @@ export default defineConfig([
       'no-console': [ 'warn', { allow: ['warn', 'error'] }],
     }
   },
+  {
+    files: ["tests/**/*.test.ts"],
+    plugins: { vitest },
+    rules: {
+      ...vitest.configs.recommended.rules,
+    },
+  },
+  
   eslintConfigPrettier,
 ]);
