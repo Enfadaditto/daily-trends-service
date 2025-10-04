@@ -5,3 +5,6 @@ export interface HttpServer {
     route(method: HttpMethod, path: string, handler: (req: HttpRequest) => Promise<HttpResponse> | HttpResponse): void;
     listen(port: number): Promise<void>;
 }
+export interface HttpController {
+    register(server: HttpServer): void;
+}
