@@ -8,11 +8,14 @@ const FeedEntitySchema = z.object({
     author: z.string(),
     source: z.string(),
     mainTopic: z.string(),
-    subTopics: z.array(z.string()),
-    url: z.string(),
+    url: z.url(),
     premium: z.boolean(),
-    media: z.array(z.string()).optional(),
-    relatedFeeds: z.array(z.string()).optional(),
+    location: z.string().optional(),
+
+    media: z.array(z.url()),
+    subTopics: z.array(z.string()),
+    relatedFeeds: z.array(z.url()).optional(),
+    publishedAt: z.date(),
     createdAt: z.date(),
     updatedAt: z.date(),
 });
@@ -24,11 +27,14 @@ type FeedProperties = {
     author: string;
     source: SourceVO;
     mainTopic: string;
-    subTopics: string[];
     url: UrlVO;
     premium: boolean;
+    location: string | null;
+
     media: UrlVO[];
+    subTopics: string[];
     relatedFeeds: UrlVO[];
+    publishedAt: Date;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -52,11 +58,14 @@ export class FeedEntity {
             author: data.author,
             source: SourceVO.create(data.source),
             mainTopic: data.mainTopic,
-            subTopics: data.subTopics,
             url: UrlVO.create(data.url),
             premium: data.premium,
-            media: data.media ? data.media.map(UrlVO.create) : [],
+            location: data.location ?? null,
+
+            media: data.media.length ? data.media.map(UrlVO.create) : [],
+            subTopics: data.subTopics,
             relatedFeeds: data.relatedFeeds ? data.relatedFeeds.map(UrlVO.create) : [],
+            publishedAt: data.publishedAt,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt
         };

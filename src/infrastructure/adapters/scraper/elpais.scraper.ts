@@ -1,8 +1,8 @@
+import { FeedEntity } from "@src/domain/entities/feed.entity";
+import type { ScraperPort } from "@src/domain/ports/scraper.port";
 import * as cheerio from "cheerio";
-import type { Source } from "@src/domain/entities/feed.entity";
 
-// const SOURCE = 'EL PAIS';
-const SOURCE = 'https://elpais.com';  // --> move to value object
+const SOURCE = 'https://elpais.com';
 
 function normalizeUrl(href?: string): string {
     if (!href) return "";
@@ -11,12 +11,19 @@ function normalizeUrl(href?: string): string {
     } catch (error) { return ""; }
 }
 
-export async function scrapeElPais(limit = 5) {
+export class ElPaisScraper implements ScraperPort {
+    readonly source = 'el_pais' as const;
+    async scrape(limit = 5) {
+        return await scrapeCheerio(limit);
+    }
+}
+
+export async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
     const $ = await cheerio.fromURL(SOURCE);
   
     const selectors = ["article h2 a[href]", "h2 a[href]", "article header a[href]"];
     const seen = new Set<string>();
-    const out: Array<{ title: string; url: string; isPremium: boolean, summary: string; section: string; date: string; author: string; location: string; image: string }> = [];
+    const out: FeedEntity[] = [];
   
     for (const sel of selectors) {
       $(sel).each((_i, el) => {
@@ -31,14 +38,14 @@ export async function scrapeElPais(limit = 5) {
           a.closest("h1, h2, h3, .headline, header").find(SEL).length > 0;
 
         const article = a.closest("article");
-        const summary =
+        const description =
           article.find("p, .c_d, .summary").first().text().trim() ||
           a.parent().siblings("p").first().text().trim() || "";
 
         const esc = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         const regex = new RegExp(`${esc(SOURCE)}/([^/]+)/([^/]+)/`);
-        const [, section = "", date = ""] = url.match(regex) || [];
-
+        const [, section = "", dateStr = ""] = url.match(regex) || []; // from the scraping of the main page, the date comes as YYYY-MM-DD 
+        const date = new Date(dateStr);
 
         const authorAndLocation =
           article.find("a[rel='author'], .c_a, .byline .author").first().text().trim() ||
@@ -49,14 +56,34 @@ export async function scrapeElPais(limit = 5) {
           article.find("img").first();
         const image =
           imgEl.attr("data-src") || imgEl.attr("data-srcset")?.split(" ")[0] ||
-          imgEl.attr("src") || "";
+          imgEl.attr("src");
 
         if (!title || !url) return;
         if (seen.has(url)) return;
 
-        if (url.includes("#") || /\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return;
+        // TODO: check if this is correct for the entity
+        // if (url.includes("#") || /\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return;
         seen.add(url);
-        out.push({ title, url, isPremium, summary, section, date, author, location, image });
+        
+        const scrapedFeed = FeedEntity.create({
+          title: title,
+          description: description,
+          author: author,
+          source: 'el_pais',
+          mainTopic: section,
+          url: url,
+          premium: isPremium,
+          location: location,
+
+          media: image ? [image] : [],
+          subTopics: [],
+          relatedFeeds: [],
+          publishedAt: date,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+
+        out.push(scrapedFeed);
       });
       if (out.length >= limit) break;
     }

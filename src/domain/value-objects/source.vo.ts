@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const SourceSchema = z.enum(['EL PAIS', 'EL MUNDO']);
+export const SourceSchema = z.enum(['el_pais', 'el_mundo']);
 export type SourceType = z.infer<typeof SourceSchema>;
 
 export class SourceVO {
@@ -9,7 +9,7 @@ export class SourceVO {
     }
 
     static create(input: string) {
-        const parsed = SourceSchema.safeParse(input.trim().toUpperCase());
+        const parsed = SourceSchema.safeParse(input.trim().toLowerCase());
         if (!parsed.success) {
             throw new Error('Invalid source');
         }
