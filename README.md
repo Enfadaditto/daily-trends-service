@@ -13,19 +13,17 @@ This is a service that scrapes the latest news from a given source and stores it
 
 ## Architecture
 
-### Domain
+//TODO: Insert architecture diagram
+
+## Domain Model
 
 ![Domain](./readme-assets/domain-model.png)
 
-### Application
-
-### Infrastructure
-
-//TODO: Insert architecture diagram
-
 ## Installation
 
+```bash
 docker compose up -d
+```
 
 ## Testing
 pnpm run test
