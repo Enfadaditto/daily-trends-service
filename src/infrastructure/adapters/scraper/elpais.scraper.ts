@@ -43,7 +43,7 @@ export async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
           a.parent().siblings("p").first().text().trim() || "";
 
         const esc = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const regex = new RegExp(`${esc(SOURCE)}/([^/]+)/([^/]+)/`);
+        const regex = new RegExp(`.com/([^/]+)/([^/]+)/`);
         const [, section = "", dateStr = ""] = url.match(regex) || []; // from the scraping of the main page, the date comes as YYYY-MM-DD 
         const date = new Date(dateStr);
 

@@ -8,7 +8,6 @@ export class FeedMapper {
         const url = document.url.toPrimitive();
         const source = document.source.toPrimitive();
 
-
         return {
             title: document.title,
             description: document.description,
