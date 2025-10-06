@@ -23,6 +23,7 @@ This is a service that scrapes the latest news from a given source and stores it
 
 ## Installation
 
+docker compose up -d
 // TODO: Make it dockerized
 
 ## Testing
