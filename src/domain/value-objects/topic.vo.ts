@@ -10,7 +10,7 @@ export class TopicVO {
     static create(input: string) {
         const parsed = TopicSchema.safeParse(input.trim().toLowerCase());
         if (!parsed.success) {
-            throw new Error('Invalid source');
+            throw new Error('Invalid topic');
         }
         return new TopicVO(parsed.data);
     }
