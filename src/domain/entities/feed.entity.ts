@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { SourceVO } from "@src/domain/value-objects/source.vo";
 import { UrlVO } from "@src/domain/value-objects/url.vo";
+import { TopicVO } from "@src/domain/value-objects/topic.vo";
 
 const FeedEntitySchema = z.object({
     title: z.string(),
@@ -26,13 +27,13 @@ type FeedProperties = {
     description: string;
     author: string;
     source: SourceVO;
-    mainTopic: string;
+    mainTopic: TopicVO;
     url: UrlVO;
     premium: boolean;
     location: string | null;
 
     media: UrlVO[];
-    subTopics: string[];
+    subTopics: TopicVO[];
     relatedFeeds: UrlVO[];
     publishedAt: Date;
     createdAt: Date;
@@ -57,13 +58,13 @@ export class FeedEntity {
             description: data.description,
             author: data.author,
             source: SourceVO.create(data.source),
-            mainTopic: data.mainTopic,
+            mainTopic: TopicVO.create(data.mainTopic),
             url: UrlVO.create(data.url),
             premium: data.premium,
             location: data.location ?? null,
 
             media: data.media.length ? data.media.map(UrlVO.create) : [],
-            subTopics: data.subTopics,
+            subTopics: data.subTopics.length ? data.subTopics.map(TopicVO.create) : [],
             relatedFeeds: data.relatedFeeds ? data.relatedFeeds.map(UrlVO.create) : [],
             publishedAt: data.publishedAt,
             createdAt: data.createdAt,

@@ -7,19 +7,20 @@ export class FeedMapper {
         const document = entity.toJSON();
         const url = document.url.toPrimitive();
         const source = document.source.toPrimitive();
+        const topic = document.mainTopic.toPrimitive();
 
         return {
             title: document.title,
             description: document.description,
             author: document.author,
             source: source,
-            mainTopic: document.mainTopic,
+            mainTopic: topic,
             url: url,
             premium: document.premium,
             location: document.location,
 
             media: (document.media as UrlVO[]).map(url => url.toPrimitive()),
-            subTopics: document.subTopics,
+            subTopics: document.subTopics.map(topic => topic.toPrimitive()),
             relatedFeeds: (document.relatedFeeds as UrlVO[]).map(url => url.toPrimitive()),
             
             publishedAt: document.publishedAt,
