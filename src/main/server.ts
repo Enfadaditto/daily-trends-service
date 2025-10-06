@@ -23,7 +23,7 @@ async function main() {
 
     new ScrapeController(scrapers, feedRepository).register(httpServer);
 
-    await httpServer.listen(3080);
+    await httpServer.listen(3080, '0.0.0.0');
 }
 
 main().catch((error) => {
