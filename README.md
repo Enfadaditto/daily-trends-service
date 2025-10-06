@@ -15,6 +15,8 @@ This is a service that scrapes the latest news from a given source and stores it
 
 ### Domain
 
+![Domain](./readme-assets/domain-model.png)
+
 ### Application
 
 ### Infrastructure
@@ -24,7 +26,6 @@ This is a service that scrapes the latest news from a given source and stores it
 ## Installation
 
 docker compose up -d
-// TODO: Make it dockerized
 
 ## Testing
 pnpm run test
