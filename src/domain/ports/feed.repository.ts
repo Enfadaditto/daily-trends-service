@@ -8,7 +8,7 @@ export type FeedQuery = {
     source?: SourceType;
     from?: Date;
     to?: Date;
-    sort?: 'publishedAt:desc' | 'publishedAt:asc' | 'scrapedAt:desc' | 'title:asc' | 'title:desc';
+    sort?: 'publishedAt:desc' | 'publishedAt:asc' | 'title:asc' | 'title:desc';
 };
 
 export interface FeedRepository {
