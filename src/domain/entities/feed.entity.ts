@@ -92,4 +92,8 @@ export class FeedEntity {
     get relatedFeeds() {
         return this.#properties.relatedFeeds.map(url => url.toPrimitive());
     }
+
+    compare(other: FeedEntity) {
+        return this.#properties.url.equals(other.url) && this.#properties.source.equals(other.#properties.source);
+    }
 }
