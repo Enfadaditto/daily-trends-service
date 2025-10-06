@@ -30,5 +30,10 @@ export class ExpressHttpServer implements HttpServer {
             [method].call(this.app, path, wrap);
     }
 
-    listen(port: number) { return new Promise<void>(r => this.app.listen(port, () => {console.log(`Server is running on port ${port}`); r();})); }
+    listen(port: number, host: string = '0.0.0.0') {
+        return new Promise<void>(r => this.app.listen(port, host, () => {
+            console.log(`Server is running on port ${port}`); 
+            r();
+        })); 
+    }
 }
