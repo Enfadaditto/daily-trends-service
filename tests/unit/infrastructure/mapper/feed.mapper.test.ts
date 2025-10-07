@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { FeedMapper } from '../../../src/infrastructure/adapters/persistence/mongo/mappers/feed.mapper';
-import { FeedEntity } from '../../../src/domain/entities/feed.entity';
+import { FeedMapper } from '../../../../src/infrastructure/adapters/persistence/mongo/mappers/feed.mapper';
+import { FeedEntity } from '../../../../src/domain/entities/feed.entity';
 
 const baseDto = () => ({
     title: 'Title',
