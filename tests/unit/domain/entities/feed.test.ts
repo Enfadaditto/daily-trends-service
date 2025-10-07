@@ -50,6 +50,13 @@ describe('FeedEntity', () => {
     expect(() => FeedEntity.create(bad as any)).toThrow('Updated at must be greater than created at');
   });
 
+  it('usa [] cuando relatedFeeds es undefined', () => {
+    const dto: any = { ...baseDto() };
+    delete dto.relatedFeeds; // fuerza el undefined
+    const entity = FeedEntity.create(dto);
+    expect(entity.relatedFeeds).toEqual([]);
+  });
+
   it('accepts empty arrays and preserves them', () => {
     const dto = { ...baseDto(), media: [], subTopics: [], relatedFeeds: [] };
     const entity = FeedEntity.create(dto as any);
@@ -57,5 +64,13 @@ describe('FeedEntity', () => {
     expect((json.media as any[]).length).toBe(0);
     expect(json.subTopics.length).toBe(0);
     expect(entity.relatedFeeds.length).toBe(0);
+  });
+
+  it('fromJSON creates a valid entity', () => {
+    const entity = FeedEntity.fromJSON(JSON.stringify(baseDto()));
+    expect(entity.title).toBe('Titulo');
+    expect(entity.url.toPrimitive()).toBe('https://example.com/news/1');
+    expect(Array.isArray(entity.relatedFeeds)).toBe(true);
+    expect(entity.relatedFeeds).toEqual(['https://example.com/rel1', 'https://example.com/rel2']);
   });
 });
