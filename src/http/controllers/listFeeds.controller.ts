@@ -17,7 +17,7 @@ export class ListFeedsController implements HttpController {
     try {
         const useCase = new ListFeeds(this.feedRepository);
         const data = await useCase.execute(filters);
-        return { status: 200, body: data.map(feed => feed.toPrimitive()) };
+        return { status: 200, body: data };
     } catch (e: any) {
         return { status: 500, body: { message: e?.message ?? 'List feeds failed' } };
     }
