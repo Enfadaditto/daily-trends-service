@@ -81,6 +81,18 @@ export class FeedEntity {
     toJSON() {
         return { ...this.#properties };
     }
+
+    toPrimitive() {
+        return {
+            ...this.#properties,
+            source: this.#properties.source.toPrimitive(),
+            mainTopic: this.#properties.mainTopic.toPrimitive(),
+            url: this.#properties.url.toPrimitive(),
+            media: this.#properties.media.map(url => url.toPrimitive()),
+            subTopics: this.#properties.subTopics.map(topic => topic.toPrimitive()),
+            relatedFeeds: this.#properties.relatedFeeds.map(url => url.toPrimitive()),
+        };
+    }
     
     get title() {
         return this.#properties.title;

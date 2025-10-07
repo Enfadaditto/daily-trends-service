@@ -4,6 +4,7 @@ import { ScrapeController } from "@src/http/controllers/feedScrape.controller";
 import { MongoConnection } from "@src/infrastructure/adapters/persistence/mongo/connect";
 import { FeedMongoRepository } from "@src/infrastructure/adapters/persistence/mongo/repositories/feedMongo.repository";
 import { env } from "@src/infrastructure/config/env";
+import { ListFeedsController } from "@src/http/controllers/listFeeds.controller";
 
 async function main() {
     const mongoConnection = new MongoConnection({
@@ -18,10 +19,16 @@ async function main() {
 
     const scrapers = {
         'el_pais': new ElPaisScraper(),
-        'el_mundo': (() => { throw new Error('Not implemented') }) as any,
+        'el_mundo': {
+            source: 'el_mundo' as const,
+            async scrape() {
+                throw new Error("El mundo is not implemented");
+            }
+        }
     }
 
     new ScrapeController(scrapers, feedRepository).register(httpServer);
+    new ListFeedsController(feedRepository).register(httpServer);
 
     await httpServer.listen(3080, '0.0.0.0');
 }
