@@ -19,6 +19,7 @@ export default defineConfig({
       exclude: [
         'src/infrastructure/adapters/api/express/createApp.ts',
         'src/infrastructure/config/env.ts',
+        'src/infrastructure/adapters/persistence/mongo/models/**',
         'src/main/**',
         'eslint.config.js',
         'vitest.config.ts'

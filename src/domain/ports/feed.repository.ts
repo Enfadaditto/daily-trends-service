@@ -1,7 +1,6 @@
 import { FeedEntity } from "@src/domain/entities/feed.entity";
 import type { SourceType } from "@src/domain/value-objects/source.vo";
 
-
 export type FeedQuery = {
     title?: string;
     limit?: number;

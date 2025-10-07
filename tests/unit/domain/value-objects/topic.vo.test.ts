@@ -19,4 +19,11 @@ describe('TopicVO', () => {
         const topicVO = TopicVO.create('politics');
         expect(topicVO).toBeDefined();
     });
+
+    it('throws "Invalid topic" when safeParse fails (not a string)', () => {
+        const badInput: any = {
+          trim: () => ({ toLowerCase: () => 123 }),
+        };
+        expect(() => TopicVO.create(badInput)).toThrow('Invalid topic');
+    });
 });
