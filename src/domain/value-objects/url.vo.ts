@@ -8,7 +8,7 @@ export class UrlVO {
     }
 
     static create(input: string) {
-        const parsed = UrlSchema.safeParse(input);
+        const parsed = UrlSchema.safeParse(input.trim().toLowerCase());
         if (!parsed.success) {
             throw new Error('Invalid url');
         }
