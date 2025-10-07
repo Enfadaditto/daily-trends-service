@@ -26,4 +26,11 @@ docker compose up -d
 ```
 
 ## Testing
-pnpm run test
+```bash
+pnpm test
+```
+
+## Testing with coverage
+```bash
+pnpm test:coverage
+```
