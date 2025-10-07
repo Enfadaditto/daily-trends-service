@@ -16,6 +16,13 @@ export default defineConfig({
     coverage: {
       reporter: ["text", "lcov"],
       reportsDirectory: "coverage",
+      exclude: [
+        'src/infrastructure/adapters/api/express/createApp.ts',
+        'src/infrastructure/config/env.ts',
+        'src/main/**',
+        'eslint.config.js',
+        'vitest.config.ts'
+      ]
     },
   },
 });
