@@ -4,7 +4,7 @@ import * as cheerio from "cheerio";
 
 const SOURCE = 'https://elpais.com';
 
-function normalizeUrl(href?: string): string {
+export function normalizeUrl(href?: string): string {
     if (!href) return "";
     try {
       return new URL(href, SOURCE).toString();
@@ -55,14 +55,12 @@ export async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
         const imgEl =
           article.find("img").first();
         const image =
-          imgEl.attr("data-src") || imgEl.attr("data-srcset")?.split(" ")[0] ||
+          imgEl.attr("data-src") || 
+          imgEl.attr("data-srcset")?.split(" ")[0] ||
           imgEl.attr("src");
 
         if (!title || !url) return;
         if (seen.has(url)) return;
-
-        // TODO: check if this is correct for the entity
-        // if (url.includes("#") || /\.(jpg|jpeg|png|gif|webp)$/i.test(url)) return;
         seen.add(url);
         
         const scrapedFeed = FeedEntity.create({
