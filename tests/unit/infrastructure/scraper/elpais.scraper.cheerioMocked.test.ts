@@ -34,6 +34,25 @@ it('deduplicates urls', async () => {
   expect(json.url.toPrimitive()).toBe('https://elpais.com/internacional/2024-09-30/dup.html');
 })
 
+it('uses third path segment as date when second is subsection', async () => {
+  const html = `
+    <article>
+      <h2><a href="/tecnologia/innovacion/2025-10-07/t1.html">Tech</a></h2>
+      <p>Desc</p>
+    </article>
+  `;
+
+  (cheerio.fromURL as unknown as Mock).mockResolvedValue(cheerio.load(html) as any);
+
+  const scraper = new ElPaisScraper();
+  const [item] = await scraper.scrape(1);
+  const json = item.toJSON();
+
+  expect(json.mainTopic.toPrimitive()).toBe('tecnologia');
+  expect(json.publishedAt instanceof Date).toBe(true);
+  expect(json.publishedAt.toISOString().startsWith('2025-10-07')).toBe(true);
+})
+
 it('fallback url match', async () => {
   const html = `
     <article>

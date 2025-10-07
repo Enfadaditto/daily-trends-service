@@ -42,10 +42,15 @@ export async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
           article.find("p, .c_d, .summary").first().text().trim() ||
           a.parent().siblings("p").first().text().trim() || "";
 
-        const esc = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const regex = new RegExp(`.com/([^/]+)/([^/]+)/`);
-        const [, section = "", dateStr = ""] = url.match(regex) || []; // from the scraping of the main page, the date comes as YYYY-MM-DD 
-        const date = new Date(dateStr);
+        let section = "";
+        let date = new Date(0/0);
+        try {
+          const { pathname } = new URL(url);
+          const segments = pathname.split('/').filter(Boolean);
+          section = segments[0] ?? "";
+          const dateSeg = segments.slice(1).find(s => /^\d{4}-\d{2}-\d{2}$/.test(s));
+          if (dateSeg) date = new Date(dateSeg);
+        } catch (_) { /* keep defaults */ }
 
         const authorAndLocation =
           article.find("a[rel='author'], .c_a, .byline .author").first().text().trim() ||
