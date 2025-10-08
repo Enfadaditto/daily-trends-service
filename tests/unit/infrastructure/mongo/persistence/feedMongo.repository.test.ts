@@ -10,7 +10,6 @@ describe('FeedMongoRepository', () => {
   let toEntitySpy: any;
   let updateOneSpy: any;
   let bulkWriteSpy: any;
-  let findByIdSpy: any;
   let findOneSpy: any;
   let findSpy: any;
 
@@ -26,7 +25,6 @@ describe('FeedMongoRepository', () => {
 
     updateOneSpy = vi.spyOn(ModelModule.FeedMongoModel, 'updateOne' as any);
     bulkWriteSpy = vi.spyOn(ModelModule.FeedMongoModel, 'bulkWrite' as any);
-    findByIdSpy = vi.spyOn(ModelModule.FeedMongoModel, 'findById' as any);
     findOneSpy = vi.spyOn(ModelModule.FeedMongoModel, 'findOne' as any);
     findSpy = vi.spyOn(ModelModule.FeedMongoModel, 'find' as any);
   });
@@ -77,16 +75,6 @@ describe('FeedMongoRepository', () => {
     const res = await repo.upsertMany([{} as any, {} as any]);
     expect(res).toEqual({ number: 5, ids: ['idA', 'idB'] });
     expect(ModelModule.FeedMongoModel.bulkWrite).toHaveBeenCalledWith(expect.any(Array));
-  });
-
-  it('findById: returns entity when exists and null when not', async () => {
-    findByIdSpy.mockResolvedValueOnce({ _id: 'x' } as any);
-    const a = await repo.findById('x');
-    expect((a as any).__entity).toBe(true);
-
-    findByIdSpy.mockResolvedValueOnce(null as any);
-    const b = await repo.findById('y');
-    expect(b).toBeNull();
   });
 
   it('findByUrl: returns entity when exists and null when not', async () => {

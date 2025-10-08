@@ -41,11 +41,6 @@ export class FeedMongoRepository implements FeedRepository {
         };
     }
 
-    async findById(id: string): Promise<FeedEntity | null> {
-        const persistence = await FeedMongoModel.findById(id);
-        return persistence ? FeedMapper.toEntity(persistence) : null;
-    }
-
     async findByUrl(url: string): Promise<FeedEntity | null> {
         const persistence = await FeedMongoModel.findOne({ url });
         return persistence ? FeedMapper.toEntity(persistence) : null;
