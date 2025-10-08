@@ -1,5 +1,6 @@
 import { ExpressHttpServer } from "@infrastructure/adapters/api/express/createApp";
 import { ElPaisScraper } from "@src/infrastructure/adapters/scraper/elpais.scraper";
+import { ElMundoScraper } from "@src/infrastructure/adapters/scraper/elmundo.scraper";
 import { ScrapeController } from "@src/http/controllers/feedScrape.controller";
 import { MongoConnection } from "@src/infrastructure/adapters/persistence/mongo/connect";
 import { FeedMongoRepository } from "@src/infrastructure/adapters/persistence/mongo/repositories/feedMongo.repository";
@@ -20,12 +21,7 @@ async function main() {
 
     const scrapers = {
         'el_pais': new ElPaisScraper(),
-        'el_mundo': {
-            source: 'el_mundo' as const,
-            async scrape() {
-                throw new Error("El mundo is not implemented");
-            }
-        }
+        'el_mundo': new ElMundoScraper(),
     }
 
     new ScrapeController(scrapers, feedRepository).register(httpServer);
