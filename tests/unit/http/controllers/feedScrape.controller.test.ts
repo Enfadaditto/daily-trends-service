@@ -23,7 +23,7 @@ describe('ScrapeController', () => {
     const controller = new ScrapeController({ el_pais: scraper } as any, feedRepository);
     controller.register(server);
 
-    const res = await routes['GET /scrape'](makeReq({ source: 'el_pais', limit: '3' }));
+    const res = await routes['POST /scrape'](makeReq({ source: 'el_pais', limit: '3' }));
     expect(res.status).toBe(200);
     expect(typeof res.body).toBe('boolean');
     expect(res.body).toBe(true);
@@ -36,7 +36,7 @@ describe('ScrapeController', () => {
     const controller = new ScrapeController({ el_pais: scraper } as any, feedRepository);
     controller.register(server);
   
-    const res = await routes['GET /scrape'](makeReq({ source: 'el_pais', limit: 'NaN' }));
+    const res = await routes['POST /scrape'](makeReq({ source: 'el_pais', limit: 'NaN' }));
     expect(res.status).toBe(200); 
   });
 
@@ -46,7 +46,7 @@ describe('ScrapeController', () => {
     const controller = new ScrapeController({} as any, {} as any);
     controller.register(server);
 
-    const res = await routes['GET /scrape'](makeReq({ source: 'invalid' }));
+    const res = await routes['POST /scrape'](makeReq({ source: 'invalid' }));
     expect(res.status).toBe(400);
     expect(res.body.message).toMatch(/Invalid source/);
   });
@@ -56,7 +56,7 @@ describe('ScrapeController', () => {
     const controller = new ScrapeController({} as any, {} as any);
     controller.register(server);
 
-    const res = await routes['GET /scrape'](makeReq({ source: 'el_pais' }));
+    const res = await routes['POST /scrape'](makeReq({ source: 'el_pais' }));
     expect(res.status).toBe(422);
     expect(res.body.message).toMatch(/not supported/);
   });
@@ -68,7 +68,7 @@ describe('ScrapeController', () => {
     const controller = new ScrapeController({ el_pais: scraper } as any, feedRepository);
     controller.register(server);
 
-    const res = await routes['GET /scrape'](makeReq({ source: 'el_pais' }));
+    const res = await routes['POST /scrape'](makeReq({ source: 'el_pais' }));
     expect(res.status).toBe(500);
     expect(res.body.message).toMatch(/boom/);
   });
@@ -80,7 +80,7 @@ describe('ScrapeController', () => {
     const controller = new ScrapeController({ el_pais: scraper } as any, feedRepository);
     controller.register(server);
   
-    const res = await routes['GET /scrape'](makeReq({ source: 'el_pais' }));
+    const res = await routes['POST /scrape'](makeReq({ source: 'el_pais' }));
     expect(res.status).toBe(500);
     expect(res.body.message).toBe('Scrape failed');
   });
