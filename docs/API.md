@@ -2,7 +2,7 @@
 
 Base URL: `http://localhost:3080`
 
-## GET /scrape
+## POST /scrape
 
 Trigger scraping for a given news source and upsert latest feeds.
 

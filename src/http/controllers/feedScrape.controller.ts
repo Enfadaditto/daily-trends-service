@@ -12,7 +12,7 @@ export class ScrapeController implements HttpController {
 
   register(server: HttpServer): void {
     // GET /scrape?source=elpais
-    server.route('GET', '/scrape', this.scrape.bind(this));
+    server.route('POST', '/scrape', this.scrape.bind(this));
   }
 
   private async scrape(req: HttpRequest) {
