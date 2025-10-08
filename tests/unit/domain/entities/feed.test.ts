@@ -73,4 +73,12 @@ describe('FeedEntity', () => {
     expect(Array.isArray(entity.relatedFeeds)).toBe(true);
     expect(entity.relatedFeeds).toEqual(['https://example.com/rel1', 'https://example.com/rel2']);
   });
+
+  it('toPrimitive returns a valid object', () => {
+    const entity = FeedEntity.create(baseDto() as any);
+    const primitive = entity.toPrimitive();
+    expect(primitive.title).toBe('Titulo');
+    expect(primitive.url).toBe('https://example.com/news/1');
+    expect(primitive.relatedFeeds).toEqual(['https://example.com/rel1', 'https://example.com/rel2']);
+  });
 });
