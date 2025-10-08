@@ -5,6 +5,7 @@ import { MongoConnection } from "@src/infrastructure/adapters/persistence/mongo/
 import { FeedMongoRepository } from "@src/infrastructure/adapters/persistence/mongo/repositories/feedMongo.repository";
 import { env } from "@src/infrastructure/config/env";
 import { ListFeedsController } from "@src/http/controllers/listFeeds.controller";
+import { DetailedFeedController } from "@src/http/controllers/detailedFeed.controller";
 
 async function main() {
     const mongoConnection = new MongoConnection({
@@ -29,6 +30,7 @@ async function main() {
 
     new ScrapeController(scrapers, feedRepository).register(httpServer);
     new ListFeedsController(feedRepository).register(httpServer);
+    new DetailedFeedController(feedRepository).register(httpServer);
 
     await httpServer.listen(3080, '0.0.0.0');
 }
