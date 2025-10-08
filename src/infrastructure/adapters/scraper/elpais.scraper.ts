@@ -18,7 +18,7 @@ export class ElPaisScraper implements ScraperPort {
     }
 }
 
-export async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
+async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
     const $ = await cheerio.fromURL(SOURCE);
   
     const selectors = ["article h2 a[href]", "h2 a[href]", "article header a[href]"];
