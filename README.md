@@ -13,7 +13,7 @@ This is a service that scrapes the latest news from a given source and stores it
 
 ## Architecture
 
-//TODO: Insert architecture diagram
+![Architecture](./readme-assets/architecture-model.png)
 
 ## Domain Model
 
