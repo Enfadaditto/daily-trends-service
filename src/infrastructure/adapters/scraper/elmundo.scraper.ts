@@ -51,20 +51,11 @@ async function scrapeCheerio(limit = 5): Promise<FeedEntity[]> {
 
             try {
                 const u = new URL(url);
-                let hasUltimaHora = false;
-                u.searchParams.forEach((v) => {
-                    if (hasUltimaHora) return;
-                    const normalized = v
-                        .replace(/\+/g, ' ')
-                        .normalize('NFD')
-                        .replace(/[\u0300-\u036f]/g, '')
-                        .toLowerCase()
-                        .trim();
-                    if (normalized === 'ultima hora') {
-                        hasUltimaHora = true;
-                    }
-                });
-                if (hasUltimaHora) return;
+                const searchLower = u.search.toLowerCase();
+                const hasCatLiveFeedToken = searchLower.includes('catlivefeed');
+                const catParam = u.searchParams.get('cat');
+                const isCatLiveFeed = typeof catParam === 'string' && catParam.toLowerCase() === 'livefeed';
+                if (hasCatLiveFeedToken || isCatLiveFeed) return;
             } catch { }
 
             let section = "";
