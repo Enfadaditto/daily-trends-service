@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ScrapeController } from '../../../src/http/controllers/feedScrape.controller';
+import { ScrapeController } from '../../../../src/http/controllers/feedScrape.controller';
 
 function makeServer() {
   const routes: Record<string, (req: any) => Promise<any>> = {};
