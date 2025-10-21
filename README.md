@@ -58,7 +58,7 @@ pnpm lint          # run eslint
 
 ## Endpoints (summary)
 
-- GET `/scrape?source=el_pais&limit=5` → `{ success: boolean }` (returns `true` if any feeds upserted)
+- POST `/scrape?source=el_pais&limit=5` → `{ success: boolean }` (returns `true` if any feeds upserted)
 - GET `/list?filters={...}` → `[{ title, url, publishedAt }]`
 - GET `/detailed-feed?url=https://...` → full feed entity
 

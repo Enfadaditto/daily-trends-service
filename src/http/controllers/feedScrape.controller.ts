@@ -11,7 +11,7 @@ export class ScrapeController implements HttpController {
   ) {}
 
   register(server: HttpServer): void {
-    // GET /scrape?source=elpais
+    // POST /scrape?source=elpais
     server.route('POST', '/scrape', this.scrape.bind(this));
   }
 
